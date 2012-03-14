@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,12 +11,44 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
- 
+class DisplayedImage extends Component {
+
+    private BufferedImage bi;
+    int w, h;
+    
+    public DisplayedImage(byte [] ba) {
+        try {
+        	InputStream in = new ByteArrayInputStream(ba);
+            bi = ImageIO.read(in);
+            w = bi.getWidth(null);
+            h = bi.getHeight(null);
+        	Graphics g = bi.getGraphics();
+        	g.drawImage(bi, 0, 0, null);
+        } catch (IOException e) {
+            System.out.println("Error in reading BufferedImage");
+            System.exit(1);
+        }
+    }
+
+    public Dimension getPreferredSize() {
+        return new Dimension(w, h);
+    }
+
+    public void paint() {
+    	BufferedImage img = new
+        	    BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    	Graphics g = img.getGraphics();
+    	g.drawImage(bi, 0, 0, null);
+    }
+}
+
 public class WebViewclient extends JApplet {
     private JPanel InfoPanel, ScreenPanel, ButtonPanel;
  	private JLabel IpLabel, PortLabel, PicLabel; 
@@ -23,11 +56,19 @@ public class WebViewclient extends JApplet {
  	private JButton RunButton;
  	private final String ButtonText = "Start Viewing";
  	
- 	public void paint(Graphics g, Image image) {
- 	    // Draw image
- 		super.paintComponents(g);
- 	    g.drawImage(image, 0, 0, ScreenPanel);
- 	}
+// 	public void paint (byte [] ba) {
+// 		InputStream in = new ByteArrayInputStream(ba);
+// 		BufferedImage bi = null;
+//        try {
+//			bi = ImageIO.read(in);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        Graphics big = bi.getGraphics();
+//        big.drawImage(bi, 0, 0, null);
+//        
+// 	}
  	
  	public void init() {	
  		//get the window/form surface--called a pane--that holds the buttons and other graphical content
@@ -56,7 +97,7 @@ public class WebViewclient extends JApplet {
 		//add the ScreenPanel and PicLabel
 		ScreenPanel = new JPanel();
 		//ImageIcon Icon = null;
-		PicLabel = new JLabel();
+		//PicLabel = new JLabel();
 		//ScreenPanel.add(PicLabel);
 		contentHolder.add(ScreenPanel, BorderLayout.CENTER);
 		//ScreenPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -68,7 +109,6 @@ public class WebViewclient extends JApplet {
 		contentHolder.add(ButtonPanel, BorderLayout.SOUTH);
 		contentHolder.update(getGraphics());
 		RunButton.addActionListener(new ActionListener() {
- 
       public void actionPerformed(ActionEvent e)
       {
     	  try {
@@ -113,22 +153,21 @@ public class WebViewclient extends JApplet {
 				System.out.println(bytearray.length);
 				
 				//drawing image in Applet
-				ImageIcon Icon = new ImageIcon(bytearray);
-				//paint(getGraphics(), Icon.getImage()); //работает только это.
+				//ImageIcon Icon = new ImageIcon(bytearray);
+				//Icon.getImage();
+			    //PicLabel.setIcon(Icon);
+			
+			//	paint(bytearray);
 				
-				Icon.getImage();
-								
-				//PicLabel = new JLabel(Icon, JLabel.CENTER)
-				ScreenPanel.revalidate();
-				PicLabel.revalidate();
-				PicLabel.setIcon(Icon);
-				PicLabel.revalidate();
-				PicLabel.setIcon(Icon);
-				PicLabel.repaint();
-				PicLabel.setIcon(Icon);
+				final DisplayedImage di = new DisplayedImage(bytearray);
+			    add("Center", di);
+				di.repaint();
+				ScreenPanel.add(di);
+				ScreenPanel.setVisible(true);
 				ScreenPanel.repaint();
-				ScreenPanel.update(getGraphics());
-				PicLabel.update(getGraphics());
+				Dimension jumbleSize = di.getPreferredSize();
+				resize(jumbleSize.width, jumbleSize.height+40);
+				
 				
 
 				allow.writeBoolean(status);
