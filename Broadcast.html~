@@ -9,7 +9,7 @@ BODY { background: url(furley.png) repeat; }
   <BODY>
     <H1>Broadcaster</H1> 
     <APPLET CODE="WebViewclient.class" ARCHIVE="WebViewclient.jar"
-        HEIGHT=850 WIDTH=1000>
+        HEIGHT=140 WIDTH=250>
 Ваш браузер не поддерживает Java
     </APPLET>
   </BODY>
