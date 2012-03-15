@@ -44,8 +44,8 @@ public class WebViewclient extends JApplet {
  		InfoPanel = new JPanel();
  		IpLabel = new JLabel("IP:");
  		PortLabel = new JLabel("Port:");
- 		IP = new JTextField("",15);
- 		Port = new JTextField("",5);
+ 		IP = new JTextField("",9);
+ 		Port = new JTextField("",4);
  		
  		//add to InfoPanel
  		InfoPanel.add(IpLabel);
@@ -55,15 +55,16 @@ public class WebViewclient extends JApplet {
  		//InfoPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
  		
  		//add InfoPanel to Applet
- 		contentHolder.add(InfoPanel, BorderLayout.EAST);
+ 		contentHolder.add(InfoPanel, BorderLayout.CENTER);
         
 		//add the ScreenPanel and PicLabel
-		ScreenPanel = new JPanel();
-		//ImageIcon Icon = null;
-		//PicLabel = new JLabel();
-		//ScreenPanel.add(PicLabel);
-		contentHolder.add(ScreenPanel, BorderLayout.CENTER);
-		//ScreenPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+// 		ScreenPanel = new JPanel();
+// 		ScreenPanel.add(IpLabel);
+// 		ScreenPanel.add(IP);
+// 		ScreenPanel.add(PortLabel);
+// 		ScreenPanel.add(Port);
+//		contentHolder.add(ScreenPanel, BorderLayout.WEST);
+//		ScreenPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		//make a panel for the button
 		ButtonPanel = new JPanel();
