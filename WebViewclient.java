@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,9 +91,9 @@ public class WebViewclient extends JApplet {
       
       
     }
-	
+
 	public void viewer() throws IOException {
-		
+
 		String ReceivedIP = IP.getText();
 		String port = Port.getText();
 		int ReceivedPort = Integer.parseInt(port);
@@ -121,12 +120,16 @@ public class WebViewclient extends JApplet {
 					i++;
 				}
 				System.out.println(bytearray.length);
-				
+
 				//drawing image in Applet
 				ImageIcon Icon = new ImageIcon(bytearray);
 				//Icon.getImage();
 			    //PicLabel.setIcon(Icon);
+<<<<<<< HEAD
+
+=======
 			
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
 				paint(getGraphics(), Icon.getImage());
 
 				allow.writeBoolean(status);
