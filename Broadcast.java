@@ -15,12 +15,12 @@ import javax.swing.*;
  
 public class Broadcast extends JApplet
 {
-     JButton button;
- 	 JTextField IP;
- 	 JLabel IPlabel;
- 	 JTextField FP;
- 	 JLabel FPlabel;
- 
+	 private JPanel InfoPanel, AnswersPanel, ButtonPanel;
+	 private JLabel IPlabel, FPlabel, PortView;
+     private JButton button;
+ 	 private JTextField IP, FP;
+ 	 private JTextArea answers;
+ 	 
  	public static BufferedImage resize(BufferedImage img, int newW, int newH) {  
         int w = img.getWidth();  
         int h = img.getHeight();  
@@ -37,47 +37,74 @@ public class Broadcast extends JApplet
 		Robot robot = new Robot();
 		BufferedImage bufferedImage = robot.createScreenCapture(
 				new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-			//сохраняем буферное изображение в выходной поток ByteArray
-			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			BufferedImage resizedImage = resize(bufferedImage,
-					(int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.6),
-					(int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.6));
-			
-			    ImageIO.write(resizedImage, "jpg", output);
-			    return output;
+		//сохраняем буферное изображение в выходной поток ByteArray
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		int height = (int)(1000*Toolkit.getDefaultToolkit().getScreenSize().height)/
+					(Toolkit.getDefaultToolkit().getScreenSize().width);
+		BufferedImage resizedImage = resize(bufferedImage, 1000, height);
+		ImageIO.write(resizedImage, "gif", output);
+		return output;
 	}   
-	
+
    public void init()
    {
-      setLayout(null);
-      button = new JButton("Connect");
-      IP = new JTextField("", 15);
+	  //get the window/form surface--called a pane--that holds the buttons and other graphical content
+	  Container contentHolder = getContentPane();
+
+	  //indicate where the pane will go
+	  contentHolder.setLayout(new BorderLayout(1,1));
+
+      IP = new JTextField("", 9);
       IPlabel = new JLabel("IP-address:");
       FP = new JTextField("", 4);
-      FPlabel = new JLabel("First port:");
+      FPlabel = new JLabel("Port:");
+      answers = new JTextArea("Wait...", 1, 5);
+     
+      InfoPanel = new JPanel();
+      InfoPanel.add(IPlabel);
+      InfoPanel.add(IP);
+      InfoPanel.add(FPlabel);
+      InfoPanel.add(FP);
+      //add InfoPanel to Applet
+	  contentHolder.add(InfoPanel, BorderLayout.NORTH);
 
-      IP.setBounds(120,0,100,20);
-      IPlabel.setBounds(20,0,100,20);
-      FP.setBounds(120,30,60,20);
-      FPlabel.setBounds(20,30,100,20);
-      button.setBounds(40,90,100,30);
+	  ButtonPanel = new JPanel();
+	  button = new JButton("Connect");
+	  Color bg = new Color(247,141,29);
+	  Color tt = new Color(255,255,255);
+	  button.setBackground(bg);
+	  button.setForeground(tt);
+	  button.setMargin(new Insets(0, 25, 0, 25));
+	  ButtonPanel.add(button);
+	  contentHolder.add(ButtonPanel, BorderLayout.EAST);
+
+	  AnswersPanel = new JPanel();
+	  PortView = new JLabel("Viewers Port:");
+      answers.setEditable(true);
+      answers.setEnabled(true);
+      answers.setBackground(Color.LIGHT_GRAY);
+      answers.setMargin(new Insets(4, 2, 2, 2));
+      //answers.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      AnswersPanel.add(PortView);
+      AnswersPanel.add(answers);
+      contentHolder.add(AnswersPanel, BorderLayout.WEST);
+      
+      
       button.addActionListener(new ActionListener() {
- 
-      public void actionPerformed(ActionEvent e)
-      {
-    	  broad();
-      }
+    	  public void actionPerformed(ActionEvent e) {
+    		  broad();
+    	  }
       });
-      add(button);
-      add(IP);
-      add(IPlabel);
-      add(FP);
-      add(FPlabel);
     }
-	
-	public void broad() {
 
+   public void look(int port){ 
+	   answers.setText("" + port + "");
+	   answers.update(answers.getGraphics()); 
+   }
+   
+	public void broad() {
 		boolean status;		
+
 		try {			
 
 			String IPadress = IP.getText();
@@ -87,32 +114,33 @@ public class Broadcast extends JApplet
 			DataInputStream port = new DataInputStream(Nosok.getInputStream());
 			int castport = port.readInt();
 			int viewport = port.readInt();
+			look(viewport);
 			Socket Cast = new Socket(IPadress, castport);
 			System.out.println("Port for cast: " + castport);
 			System.out.println("Port for view: " + viewport);
-			DataInputStream allow = new DataInputStream(Cast.getInputStream());
+		    DataInputStream allow = new DataInputStream(Cast.getInputStream());
 			DataOutputStream sizeOut = new DataOutputStream(Cast.getOutputStream());
 			OutputStream bytearrayOut = Cast.getOutputStream();
-			
+
 			while(true) {
-				status = allow.readBoolean();
-				if(status) {
-					byte[] bytearray = MkScrShot().toByteArray();
-					sizeOut.writeInt(bytearray.length);
-					bytearrayOut.write(bytearray);
-					System.out.println(bytearray.length);
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					status = allow.readBoolean();
+					if(status) {
+						byte[] bytearray = MkScrShot().toByteArray();
+						sizeOut.writeInt(bytearray.length);
+						bytearrayOut.write(bytearray);
+						System.out.println(bytearray.length);
 					}
-				}
 			}
 		} catch (AWTException e) {
 			e.printStackTrace();
+			answers.setText("");
+		    answers.append("Aras1");
+		    repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
+			answers.setText("");
+		    answers.append("Aras2");
+		    repaint();
 		}
 		}
 }

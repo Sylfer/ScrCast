@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,36 +17,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-class DisplayedImage extends Component {
 
-    private BufferedImage bi;
-    int w, h;
-    
-    public DisplayedImage(byte [] ba) {
-        try {
-        	InputStream in = new ByteArrayInputStream(ba);
-            bi = ImageIO.read(in);
-            w = bi.getWidth(null);
-            h = bi.getHeight(null);
-        	Graphics g = bi.getGraphics();
-        	g.drawImage(bi, 0, 0, null);
-        } catch (IOException e) {
-            System.out.println("Error in reading BufferedImage");
-            System.exit(1);
-        }
-    }
-
-    public Dimension getPreferredSize() {
-        return new Dimension(w, h);
-    }
-
-    public void paint() {
-    	BufferedImage img = new
-        	    BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-    	Graphics g = img.getGraphics();
-    	g.drawImage(bi, 0, 0, null);
-    }
-}
 
 public class WebViewclient extends JApplet {
     private JPanel InfoPanel, ScreenPanel, ButtonPanel;
@@ -56,19 +26,11 @@ public class WebViewclient extends JApplet {
  	private JButton RunButton;
  	private final String ButtonText = "Start Viewing";
  	
-// 	public void paint (byte [] ba) {
-// 		InputStream in = new ByteArrayInputStream(ba);
-// 		BufferedImage bi = null;
-//        try {
-//			bi = ImageIO.read(in);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        Graphics big = bi.getGraphics();
-//        big.drawImage(bi, 0, 0, null);
-//        
-// 	}
+ 	public void paint(Graphics g, Image image) {
+ 		// Draw image
+ 	    //super.paintComponents(g);
+ 	    g.drawImage(image, 0, 0, this);
+    }
  	
  	public void init() {	
  		//get the window/form surface--called a pane--that holds the buttons and other graphical content
@@ -76,13 +38,13 @@ public class WebViewclient extends JApplet {
 
 		//indicate where the pane will go
 		contentHolder.setLayout(new BorderLayout(100,50));
- 		
+ 				
  		//creating Panels, Labels, Fields
  		InfoPanel = new JPanel();
  		IpLabel = new JLabel("IP:");
  		PortLabel = new JLabel("Port:");
- 		IP = new JTextField("",15);
- 		Port = new JTextField("",5);
+ 		IP = new JTextField("",9);
+ 		Port = new JTextField("",4);
  		
  		//add to InfoPanel
  		InfoPanel.add(IpLabel);
@@ -90,21 +52,28 @@ public class WebViewclient extends JApplet {
  		InfoPanel.add(PortLabel);
  		InfoPanel.add(Port);
  		//InfoPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
+
  		
  		//add InfoPanel to Applet
- 		contentHolder.add(InfoPanel, BorderLayout.EAST);
+ 		contentHolder.add(InfoPanel, BorderLayout.CENTER);
         
 		//add the ScreenPanel and PicLabel
-		ScreenPanel = new JPanel();
-		//ImageIcon Icon = null;
-		//PicLabel = new JLabel();
-		//ScreenPanel.add(PicLabel);
-		contentHolder.add(ScreenPanel, BorderLayout.CENTER);
-		//ScreenPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+// 		ScreenPanel = new JPanel();
+// 		ScreenPanel.add(IpLabel);
+// 		ScreenPanel.add(IP);
+// 		ScreenPanel.add(PortLabel);
+// 		ScreenPanel.add(Port);
+//		contentHolder.add(ScreenPanel, BorderLayout.WEST);
+//		ScreenPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		//make a panel for the button
 		ButtonPanel = new JPanel();
 		RunButton = new JButton(ButtonText);
+		Color bg = new Color(100, 153, 30);
+		Color tt = new Color(255,255,255);
+		RunButton.setBackground(bg);
+		RunButton.setForeground(tt);
+		RunButton.setMargin(new Insets(0, 25, 0, 25));
 		ButtonPanel.add(RunButton);
 		contentHolder.add(ButtonPanel, BorderLayout.SOUTH);
 		contentHolder.update(getGraphics());
@@ -122,9 +91,9 @@ public class WebViewclient extends JApplet {
       
       
     }
-	
+
 	public void viewer() throws IOException {
-		
+
 		String ReceivedIP = IP.getText();
 		String port = Port.getText();
 		int ReceivedPort = Integer.parseInt(port);
@@ -151,24 +120,13 @@ public class WebViewclient extends JApplet {
 					i++;
 				}
 				System.out.println(bytearray.length);
-				
+
 				//drawing image in Applet
-				//ImageIcon Icon = new ImageIcon(bytearray);
+				ImageIcon Icon = new ImageIcon(bytearray);
 				//Icon.getImage();
 			    //PicLabel.setIcon(Icon);
-			
-			//	paint(bytearray);
-				
-				final DisplayedImage di = new DisplayedImage(bytearray);
-			    add("Center", di);
-				di.repaint();
-				ScreenPanel.add(di);
-				ScreenPanel.setVisible(true);
-				ScreenPanel.repaint();
-				Dimension jumbleSize = di.getPreferredSize();
-				resize(jumbleSize.width, jumbleSize.height+40);
-				
-				
+
+				paint(getGraphics(), Icon.getImage());
 
 				allow.writeBoolean(status);
 				status = true;
