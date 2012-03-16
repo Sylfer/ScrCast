@@ -39,7 +39,7 @@ public class WebViewclient extends JApplet {
 
 		//indicate where the pane will go
 		contentHolder.setLayout(new BorderLayout(100,50));
- 		
+ 				
  		//creating Panels, Labels, Fields
  		InfoPanel = new JPanel();
  		IpLabel = new JLabel("IP:");
@@ -53,6 +53,7 @@ public class WebViewclient extends JApplet {
  		InfoPanel.add(PortLabel);
  		InfoPanel.add(Port);
  		//InfoPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
+
  		
  		//add InfoPanel to Applet
  		contentHolder.add(InfoPanel, BorderLayout.CENTER);
@@ -69,6 +70,11 @@ public class WebViewclient extends JApplet {
 		//make a panel for the button
 		ButtonPanel = new JPanel();
 		RunButton = new JButton(ButtonText);
+		Color bg = new Color(100, 153, 30);
+		Color tt = new Color(255,255,255);
+		RunButton.setBackground(bg);
+		RunButton.setForeground(tt);
+		RunButton.setMargin(new Insets(0, 25, 0, 25));
 		ButtonPanel.add(RunButton);
 		contentHolder.add(ButtonPanel, BorderLayout.SOUTH);
 		contentHolder.update(getGraphics());

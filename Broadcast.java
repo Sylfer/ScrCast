@@ -15,13 +15,11 @@ import javax.swing.*;
  
 public class Broadcast extends JApplet
 {
-     JButton button;
- 	 JTextField IP;
- 	 JLabel IPlabel;
- 	 JTextField FP;
- 	 JLabel FPlabel;
- 	 JLabel ViewPort;
- 	 JTextArea answers;
+	 private JPanel InfoPanel, AnswersPanel, ButtonPanel;
+	 private JLabel IPlabel, FPlabel, PortView;
+     private JButton button;
+ 	 private JTextField IP, FP;
+ 	 private JTextArea answers;
  	 
  	public static BufferedImage resize(BufferedImage img, int newW, int newH) {  
         int w = img.getWidth();  
@@ -50,40 +48,57 @@ public class Broadcast extends JApplet
 	
    public void init()
    {
-      setLayout(null);
-      button = new JButton("Connect");
-      IP = new JTextField("", 15);
+	  //get the window/form surface--called a pane--that holds the buttons and other graphical content
+	  Container contentHolder = getContentPane();
+
+	  //indicate where the pane will go
+	  contentHolder.setLayout(new BorderLayout(1,1));
+	  
+      IP = new JTextField("", 9);
       IPlabel = new JLabel("IP-address:");
       FP = new JTextField("", 4);
-      FPlabel = new JLabel("First port:");
-      ViewPort = new JLabel("ViewPort");
-      answers = new JTextArea("Wait...");
-      IP.setBounds(120,0,100,20);
-      IPlabel.setBounds(20,0,100,20);
-      FP.setBounds(120,30,40,20);
-      FPlabel.setBounds(20,30,100,20);
-      button.setBounds(40,90,100,30);
-      ViewPort.setBounds(20,60,100,20);
-      answers.setBounds(20, 140, 130, 20);
+      FPlabel = new JLabel("Port:");
+      answers = new JTextArea("Wait...", 1, 5);
+     
+      InfoPanel = new JPanel();
+      InfoPanel.add(IPlabel);
+      InfoPanel.add(IP);
+      InfoPanel.add(FPlabel);
+      InfoPanel.add(FP);
+      //add InfoPanel to Applet
+	  contentHolder.add(InfoPanel, BorderLayout.NORTH);
+	  
+	  ButtonPanel = new JPanel();
+	  button = new JButton("Connect");
+	  Color bg = new Color(247,141,29);
+	  Color tt = new Color(255,255,255);
+	  button.setBackground(bg);
+	  button.setForeground(tt);
+	  button.setMargin(new Insets(0, 25, 0, 25));
+	  ButtonPanel.add(button);
+	  contentHolder.add(ButtonPanel, BorderLayout.EAST);
+	  
+	  AnswersPanel = new JPanel();
+	  PortView = new JLabel("Viewers Port:");
+      answers.setEditable(true);
+      answers.setEnabled(true);
+      answers.setBackground(Color.LIGHT_GRAY);
+      answers.setMargin(new Insets(4, 2, 2, 2));
+      //answers.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      AnswersPanel.add(PortView);
+      AnswersPanel.add(answers);
+      contentHolder.add(AnswersPanel, BorderLayout.WEST);
+      
+      
       button.addActionListener(new ActionListener() {
     	  public void actionPerformed(ActionEvent e) {
     		  broad();
     	  }
       });
-      add(button);
-      add(IP);
-      add(IPlabel);
-      add(FP);
-      add(FPlabel);
-      answers.setEditable(true);
-      answers.setEnabled(true);
-      answers.setBackground(Color.WHITE);
-      answers.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-      add(answers);
     }
 	
    public void look(int port){ 
-	   answers.setText("Port for view: " + port + "\n");
+	   answers.setText("" + port + "");
 	   answers.update(answers.getGraphics()); 
    }
    
