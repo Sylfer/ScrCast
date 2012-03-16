@@ -59,7 +59,7 @@ public class WebViewclient extends JApplet {
  		contentHolder.add(InfoPanel, BorderLayout.CENTER);
         
 		//add the ScreenPanel and PicLabel
-// 		ScreenPanel = new JPanel();
+ 		ScreenPanel = new JPanel();
 // 		ScreenPanel.add(IpLabel);
 // 		ScreenPanel.add(IP);
 // 		ScreenPanel.add(PortLabel);
