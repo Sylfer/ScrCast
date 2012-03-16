@@ -1,6 +1,6 @@
 <HTML>
   <HEAD>
-    <TITLE>Broadcaster</TITLE>
+    <TITLE>Viewer</TITLE>
     <style type="text/css">
 BODY { background: url(furley.png) repeat; }
 h1 {
@@ -9,7 +9,7 @@ h1 {
 applet {
     position: absolute; /* Абсолютное позиционирование */
     width: 1000px; /* Ширина слоя в пикселах */
-    height: 600px; /* Высота слоя в пикселах */
+    height: 580px; /* Высота слоя в пикселах */
     left: 15%; /* Положение слоя от левого края */
     top: 25%; /* Положение слоя от верхнего края */
     margin-left: -40px; /* Отступ слева */
@@ -24,9 +24,9 @@ applet {
     
   </HEAD>
   <BODY>
-    <H1>Broadcaster</H1> 
-    <APPLET CODE="WebViewclient.class" ARCHIVE="WebViewclient.jar"
-        HEIGHT=600 WIDTH=1000>
+    <H1>Viewer</H1> 
+    <APPLET CODE="WebViewclient.class" ARCHIVE="View.jar"
+        HEIGHT=580 WIDTH=1000>
 Ваш браузер не поддерживает Java
     </APPLET>
   </BODY>
