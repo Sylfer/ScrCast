@@ -125,7 +125,11 @@ public class WebViewclient extends JApplet {
 				ImageIcon Icon = new ImageIcon(bytearray);
 				//Icon.getImage();
 			    //PicLabel.setIcon(Icon);
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
 				paint(getGraphics(), Icon.getImage());
 
 				allow.writeBoolean(status);

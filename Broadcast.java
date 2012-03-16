@@ -53,7 +53,11 @@ public class Broadcast extends JApplet
 
 	  //indicate where the pane will go
 	  contentHolder.setLayout(new BorderLayout(1,1));
+<<<<<<< HEAD
 
+=======
+	  
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
       IP = new JTextField("", 9);
       IPlabel = new JLabel("IP-address:");
       FP = new JTextField("", 4);
@@ -67,7 +71,11 @@ public class Broadcast extends JApplet
       InfoPanel.add(FP);
       //add InfoPanel to Applet
 	  contentHolder.add(InfoPanel, BorderLayout.NORTH);
+<<<<<<< HEAD
 
+=======
+	  
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
 	  ButtonPanel = new JPanel();
 	  button = new JButton("Connect");
 	  Color bg = new Color(247,141,29);
@@ -77,7 +85,11 @@ public class Broadcast extends JApplet
 	  button.setMargin(new Insets(0, 25, 0, 25));
 	  ButtonPanel.add(button);
 	  contentHolder.add(ButtonPanel, BorderLayout.EAST);
+<<<<<<< HEAD
 
+=======
+	  
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
 	  AnswersPanel = new JPanel();
 	  PortView = new JLabel("Viewers Port:");
       answers.setEditable(true);
@@ -96,7 +108,11 @@ public class Broadcast extends JApplet
     	  }
       });
     }
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
    public void look(int port){ 
 	   answers.setText("" + port + "");
 	   answers.update(answers.getGraphics()); 
@@ -104,7 +120,11 @@ public class Broadcast extends JApplet
    
 	public void broad() {
 		boolean status;		
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 38bbee32c42ad2540d867960461f7ae9c8011954
 		try {			
 
 			String IPadress = IP.getText();

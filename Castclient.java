@@ -32,11 +32,10 @@ public class Castclient {
 					new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 				//сохраняем буферное изображение в выходной поток ByteArray
 				ByteArrayOutputStream output = new ByteArrayOutputStream();
-				BufferedImage resizedImage = resize(bufferedImage,
-						(int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.6),
-						(int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.6));
-				
-				    ImageIO.write(resizedImage, "jpg", output);
+				int height = (int)(1000*Toolkit.getDefaultToolkit().getScreenSize().height)/
+						(Toolkit.getDefaultToolkit().getScreenSize().width);
+				BufferedImage resizedImage = resize(bufferedImage, 1000, height);
+				    ImageIO.write(resizedImage, "gif", output);
 				    return output;
 		}
 	
@@ -64,12 +63,12 @@ public class Castclient {
 						sizeOut.writeInt(bytearray.length);
 						bytearrayOut.write(bytearray);
 						System.out.println(bytearray.length);
-						try {
-							Thread.sleep(20000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						try {
+//							Thread.sleep(5000);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 					}
 				}
 			} catch (IOException e) {

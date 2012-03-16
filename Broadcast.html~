@@ -9,7 +9,7 @@ h1 {
 applet {
     position: absolute; /* Абсолютное позиционирование */
     width: 1000px; /* Ширина слоя в пикселах */
-    height: 590px; /* Высота слоя в пикселах */
+    height: 580px; /* Высота слоя в пикселах */
     left: 15%; /* Положение слоя от левого края */
     top: 25%; /* Положение слоя от верхнего края */
     margin-left: -40px; /* Отступ слева */
@@ -26,7 +26,7 @@ applet {
   <BODY>
     <H1>Viewer</H1> 
     <APPLET CODE="WebViewclient.class" ARCHIVE="View.jar"
-        HEIGHT=590 WIDTH=1000>
+        HEIGHT=580 WIDTH=1000>
 Ваш браузер не поддерживает Java
     </APPLET>
   </BODY>
